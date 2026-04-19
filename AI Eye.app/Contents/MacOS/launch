@@ -1,0 +1,10 @@
+#!/bin/bash
+# Resolve project dir (three levels up from Contents/MacOS/)
+PROJ="$(cd "$(dirname "$0")/../../.." && pwd)"
+
+# Start Ollama in background if installed and not running
+if command -v ollama &>/dev/null && ! pgrep -x ollama >/dev/null; then
+    ollama serve &>/dev/null &
+fi
+
+exec "$PROJ/.venv/bin/python" "$PROJ/ai_eye.py"
